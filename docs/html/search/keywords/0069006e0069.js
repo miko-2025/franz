@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("ini",["Macro"],[["Initiates",,[[,"PLATFORM_WAIT Initiates a spin-loop, polling a memory address to",,"platform_wait initiates a spin-loop,polling a memory address to",0,"File:franz_abi_old.txt:PLATFORM_WAIT_Initiates_a_spin-loop,polling_a_memory_address_to"]]]]);

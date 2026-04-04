@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("set",["Constant"],[["Sets",,[["PL_CH_MSG_SET Offset: B3_OFF + 0x008"," Sets a platform channel",,"sets a platform channel",0,"File:franz_abi_old.txt:PL_CH_MSG_SET_Offset_B3_OFF+0x008.Sets_a_platform_channel"]]]]);

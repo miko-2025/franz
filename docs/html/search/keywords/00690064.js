@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("id",["Constant"],[["ID",,[["SYS_CPUID Offset: B1_OFF + 0x020"," Retrieves the ID of the executing",,"retrieves the id of the executing",0,"File:franz_abi_old.txt:SYS_CPUID_Offset_B1_OFF+0x020.Retrieves_the_ID_of_the_executing"]]]]);

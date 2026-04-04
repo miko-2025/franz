@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("siz",["Constant"],[["size",,[["MEM_PAGE_SIZE Offset: B2_OFF + 0x210"," Retrieves CPU page size",,"retrieves cpu page size",0,"File:franz_abi_old.txt:MEM_PAGE_SIZE_Offset_B2_OFF+0x210.Retrieves_CPU_page_size"]]]]);

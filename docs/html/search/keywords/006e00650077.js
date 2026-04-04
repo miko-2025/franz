@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("new",["Constant"],[["new",,[["PL_CH_MSG_NEW Offset: B3_OFF + 0x010"," Instantiates a new platform",,"instantiates a new platform",0,"File:franz_abi_old.txt:PL_CH_MSG_NEW_Offset_B3_OFF+0x010.Instantiates_a_new_platform"]]]]);

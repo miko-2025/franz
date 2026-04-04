@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("con",["Constant"],[["configures",,[["NET_SUPPORT Offset: B0_OFF + 0x600"," Checks or configures network",,"checks or configures network",0,"File:franz_abi_old.txt:NET_SUPPORT_Offset_B0_OFF+0x600.Checks_or_configures_network"]]]]);

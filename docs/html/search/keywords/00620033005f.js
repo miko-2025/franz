@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("b3_",["Constant"],[["B3_OFF",,[[,,,,0,"File:franz_abi.txt:B3_OFF"],[,"B3_OFF Block 3 Base Offset (0x1800) - Platform API (6144).",,"b3_off block 3 base offset(0x1800)-platform api(6144).",0,"File:franz_abi_old.txt:B3_OFF_Block_3_Base_Offset(0x1800)-Platform_API(6144)."]]]]);

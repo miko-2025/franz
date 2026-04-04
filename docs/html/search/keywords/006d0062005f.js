@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("mb_",["Constant"],[["MB_READ",,[[,,,,0,"File:franz_abi.txt:MB_READ"]]],["MB_WRITE",,[[,,,,0,"File:franz_abi.txt:MB_WRITE"]]]]);

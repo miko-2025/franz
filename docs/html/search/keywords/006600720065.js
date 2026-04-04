@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("fre",["Constant"],[["free",,[["MEM_FREE Offset: B2_OFF + 0x208"," Retrieves currently free",,"retrieves currently free",0,"File:franz_abi_old.txt:MEM_FREE_Offset_B2_OFF+0x208.Retrieves_currently_free"]]]]);

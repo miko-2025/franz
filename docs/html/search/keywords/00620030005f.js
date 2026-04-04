@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("b0_",["Constant"],[["B0_OFF",,[[,,,,0,"File:franz_abi.txt:B0_OFF"],[,"B0_OFF Block 0 Base Offset (0x000) - I/O &amp; Multimedia.",,"b0_off block 0 base offset(0x000)-i/o&multimedia.",0,"File:franz_abi_old.txt:B0_OFF_Block_0_Base_Offset(0x000)-I/O_Multimedia."]]]]);

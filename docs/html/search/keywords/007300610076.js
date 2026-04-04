@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("sav",["Macro"],[["SAVE_ALL",,[[,,,,0,"File:franz_abi.txt:SAVE_ALL"]]],["saves",,[[,"PUSH_FRAME Allocates stack space and saves the return address (64-bit).",,"push_frame allocates stack space and saves the return address(64-bit).",0,"File:franz_abi_old.txt:PUSH_FRAME_Allocates_stack_space_and_saves_the_return_address(64-bit)."]]]]);

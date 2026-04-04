@@ -1,0 +1,185 @@
+Title: Franz Kernel User ABI Definitions
+================================================================================
+Description: 
+Master Application Binary Interface (ABI) definitions, system call offsets, 
+and execution macros for the Franz RISC-V user environment.
+================================================================================
+
+Group: ABI Base & Block Offsets
+--------------------------------------------------------------------------------
+
+Constant: ABI_BASE
+   Location:  Register s1
+   Summary:   The master ABI pointer. The kernel pre-loads the base address 
+              (0x80201000) into this register.
+   Warning:   Users MUST NOT modify s1 if they intend to use kcall macros.
+
+Constant: B0_OFF
+   Value:     0x000
+   Summary:   Block 0: I/O & Multimedia.
+
+Constant: B1_OFF
+   Value:     0x800
+   Summary:   Block 1: CPU & Time (2048).
+
+Constant: B2_OFF
+   Value:     0x1000
+   Summary:   Block 2: Memory & Data (4096).
+
+Constant: B3_OFF
+   Value:     0x1800
+   Summary:   Block 3: Platform API (6144).
+
+
+Group: Block 0 - I/O & Multimedia
+--------------------------------------------------------------------------------
+
+Constant: UART_PUTC
+   [Offset]   B0_OFF + 0x000
+   [Action]   Prints a single character to the console.
+
+Constant: UART_PUTS
+   [Offset]   B0_OFF + 0x008
+   [Action]   Prints a null-terminated string.
+
+Constant: UART_PUTHEX
+   [Offset]   B0_OFF + 0x010
+   [Action]   Prints a 64-bit value in hexadecimal.
+
+Constant: UART_PUTDEC
+   [Offset]   B0_OFF + 0x018
+   [Action]   Prints a 64-bit value in decimal.
+
+Constant: UART_GETC
+   [Offset]   B0_OFF + 0x020
+   [Action]   Retrieves a single character from input.
+
+Constant: PX_GETW
+   [Offset]   B0_OFF + 0x200
+   [Action]   Returns pixel buffer width in pixels.
+
+Constant: PX_GETH
+   [Offset]   B0_OFF + 0x208
+   [Action]   Returns pixel buffer height in pixels.
+
+Constant: PX_BUFFER
+   [Offset]   B0_OFF + 0x210
+   [Action]   Returns the memory pointer to the start of the pixel buffer.
+
+Constant: PX_SYNC
+   [Offset]   B0_OFF + 0x218
+   [Action]   Flushes buffer to display hardware (Sync).
+
+Constant: SND_SET
+   [Offset]   B0_OFF + 0x400
+   [Action]   Configures global audio parameters.
+
+Constant: NET_SUPPORT
+   [Offset]   B0_OFF + 0x600
+   [Action]   Returns networking capability flags.
+
+
+Group: Block 1 - CPU & Time
+--------------------------------------------------------------------------------
+
+Constant: SYS_TIME
+   [Offset]   B1_OFF + 0x000
+   [Action]   Retrieves the current system uptime in microseconds.
+
+Constant: SYS_CYCLES
+   [Offset]   B1_OFF + 0x008
+   [Action]   Retrieves the raw CPU cycle counter.
+
+Constant: SYS_DELAY_US
+   [Offset]   B1_OFF + 0x010
+   [Action]   Blocks execution for the specified microseconds.
+
+Constant: SYS_FREQ
+   [Offset]   B1_OFF + 0x018
+   [Action]   Returns the current CPU clock frequency.
+
+Constant: SYS_CPUID
+   [Offset]   B1_OFF + 0x020
+   [Action]   Returns the Hart ID of the calling core.
+
+Constant: SYS_FENCEI
+   [Offset]   B1_OFF + 0x028
+   [Action]   Synchronizes the instruction and data streams.
+
+Constant: SYS_TIMER_SET
+   [Offset]   B1_OFF + 0x030
+   [Action]   Programs the next hardware timer interrupt.
+
+Constant: SYS_ISA
+   [Offset]   B1_OFF + 0x038
+   [Action]   Returns a bitmask of supported RISC-V extensions.
+
+Constant: SYS_HALT
+   [Offset]   B1_OFF + 0x040
+   [Action]   Terminates the current execution environment.
+
+
+Group: Block 2 - Memory & Data
+--------------------------------------------------------------------------------
+
+Constant: MEM_COPY
+   [Offset]   B2_OFF + 0x000
+   Registers:
+      > a0 : Destination address (dst)
+      > a1 : Source address (src)
+      > a2 : Length in bytes (len)
+
+Constant: MEM_SET
+   [Offset]   B2_OFF + 0x008
+   Registers:
+      > a0 : Destination address (dst)
+      > a1 : Byte value to fill (val)
+      > a2 : Length in bytes (len)
+
+Constant: MEM_COMPARE
+   [Offset]   B2_OFF + 0x010
+   Registers:
+      > a0 : ptr1 (returns result here)
+      > a1 : ptr2
+      > a2 : Length in bytes (len)
+
+Constant: STR_LEN
+   [Offset]   B2_OFF + 0x020
+   Registers:
+      > a0 : String pointer (returns length here)
+
+Constant: MB_READ
+   [Offset]   B2_OFF + 0x400
+   Registers:
+      > a0 : Mailbox read offset
+
+Constant: MB_WRITE
+   [Offset]   B2_OFF + 0x408
+   Registers:
+      > a0 : Mailbox write offset
+      > a1 : 64-bit value to write
+
+
+Group: System Execution Macros
+--------------------------------------------------------------------------------
+
+Macro: KCALL
+   Summary:   Primary system call invoker. Safely handles >2047 byte offsets.
+   Registers:
+      - s1 : (Read-Only) Must contain the ABI base pointer.
+      - t5 : (Mutated) Used for the immediate 32-bit offset.
+      - t6 : (Mutated) Final jump address calculation.
+      - ra : (Mutated) Return address link.
+
+Macro: SAVE_ALL
+   Summary:   Context save. Pushes all 32 GPRs to stack (256-byte frame).
+   Registers:
+      - sp       : Decremented by 256.
+      - mscratch : Temporarily holds the original SP.
+      - x1-x31   : All general registers are saved to stack.
+
+Macro: RESTORE_ALL
+   Summary:   Context restore. Pops all 32 GPRs and cleans the stack frame.
+   Registers:
+      - sp       : Incremented by 256.
+      - x1-x31   : Overwritten with values from stack.

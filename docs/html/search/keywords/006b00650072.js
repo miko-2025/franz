@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("ker",["Constant","Section"],[["Kernel",,[["ABI_BASE The master ABI pointer"," The kernel pre-loads the base",,"the kernel pre-loads the base",0,"File:franz_abi_old.txt:ABI_BASE_The_master_ABI_pointer.The_kernel_pre-loads_the_base"],[,"Franz Kernel User ABI Definitions",,,1,"File:franz_abi.txt:Franz_Kernel_User_ABI_Definitions"]]]]);

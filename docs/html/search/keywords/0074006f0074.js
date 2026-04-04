@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("tot",["Macro"],[["Total",,[["SAVE_ALL Saves all 32 general-purpose registers to the stack"," Total",,"total",0,"File:franz_abi_old.txt:SAVE_ALL_Saves_all_32_general-purpose_registers_to_the_stack.Total"]]]]);

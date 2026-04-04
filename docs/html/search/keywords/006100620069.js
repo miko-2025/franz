@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("abi",["Section","Constant"],[["ABI",,[[,"Franz Kernel User ABI Definitions",,,0,"File:franz_abi.txt:Franz_Kernel_User_ABI_Definitions"]]],["ABI_BASE",,[[,,,,1,"File:franz_abi.txt:ABI_BASE"]]]]);

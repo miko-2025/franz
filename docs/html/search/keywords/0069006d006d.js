@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("imm",["Macro"],[["immediate",,[[,"KCALL Bypasses the 12-bit immediate limit of \'ld\' by using \'li\' and",,"kcall bypasses the 12-bit immediate limit of\'ld\'by using\'li\'and",0,"File:franz_abi_old.txt:KCALL_Bypasses_the_12-bit_immediate_limit_of\'ld\'by_using\'li\'and"]]]]);

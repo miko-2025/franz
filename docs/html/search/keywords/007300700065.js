@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("spe",["Constant"],[["specific",,[["MEM_SET Offset: B2_OFF + 0x008"," Fills memory with a specific",,"fills memory with a specific",0,"File:franz_abi_old.txt:MEM_SET_Offset_B2_OFF+0x008.Fills_memory_with_a_specific"]]]]);

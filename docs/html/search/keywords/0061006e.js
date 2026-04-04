@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("an",["Constant"],[["an",,[["SYS_FENCEI Offset: B1_OFF + 0x028"," Executes an instruction memory",,"executes an instruction memory",0,"File:franz_abi_old.txt:SYS_FENCEI_Offset_B1_OFF+0x028.Executes_an_instruction_memory"]]]]);

@@ -1,0 +1,192 @@
+Title: Franz Kernel User ABI Definitions
+
+Description: Master Application Binary Interface (ABI) definitions, system
+call offsets, and execution macros for the Franz RISC-V user environment.
+
+Group: ABI Base & Block Offsets
+
+Constant: ABI_BASE The master ABI pointer. The kernel pre-loads the base
+address (0x80201000) into this register.
+
+Registers: - s1 : Holds the base pointer. Users MUST NOT modify this register
+if they intend to use the kcall macros.
+
+Constant: B0_OFF Block 0 Base Offset (0x000) - I/O & Multimedia.
+
+Constant: B1_OFF Block 1 Base Offset (0x800) - CPU & Time (2048).
+
+Constant: B2_OFF Block 2 Base Offset (0x1000) - Memory & Data (4096).
+
+Constant: B3_OFF Block 3 Base Offset (0x1800) - Platform API (6144).
+
+Group: Block 0 - I/O & Multimedia
+
+Constant: UART_PUTC Offset: B0_OFF + 0x000. Prints a single character.
+
+Constant: UART_PUTS Offset: B0_OFF + 0x008. Prints a string.
+
+Constant: UART_PUTHEX Offset: B0_OFF + 0x010. Prints a hexadecimal value.
+
+Constant: UART_PUTDEC Offset: B0_OFF + 0x018. Prints a decimal value.
+
+Constant: UART_GETC Offset: B0_OFF + 0x020. Retrieves a single character
+from input.
+
+Constant: PX_GETW Offset: B0_OFF + 0x200. Gets pixel buffer width.
+
+Constant: PX_GETH Offset: B0_OFF + 0x208. Gets pixel buffer height.
+
+Constant: PX_BUFFER Offset: B0_OFF + 0x210. Retrieves pixel buffer pointer.
+
+Constant: PX_SYNC Offset: B0_OFF + 0x218. Synchronizes the pixel buffer with
+the display.
+
+Constant: SND_SET Offset: B0_OFF + 0x400. Configures audio settings.
+
+Constant: NET_SUPPORT Offset: B0_OFF + 0x600. Checks or configures network
+availability.
+
+Group: Block 1 - CPU & Time
+
+Constant: SYS_TIME Offset: B1_OFF + 0x000. Retrieves system time.
+
+Constant: SYS_CYCLES Offset: B1_OFF + 0x008. Retrieves CPU cycle count.
+
+Constant: SYS_DELAY_US Offset: B1_OFF + 0x010. Delays execution in
+microseconds.
+
+Constant: SYS_FREQ Offset: B1_OFF + 0x018. Retrieves CPU frequency.
+
+Constant: SYS_CPUID Offset: B1_OFF + 0x020. Retrieves the ID of the executing
+core.
+
+Constant: SYS_FENCEI Offset: B1_OFF + 0x028. Executes an instruction memory
+fence.
+
+Constant: SYS_TIMER_SET Offset: B1_OFF + 0x030. Configures a hardware timer.
+
+Constant: SYS_ISA Offset: B1_OFF + 0x038. Retrieves ISA support flags.
+
+Constant: SYS_HALT Offset: B1_OFF + 0x040. Halts the system or execution
+context.
+
+Group: Block 2 - Memory & Data (Fast Memory Ops)
+
+Constant: MEM_COPY Offset: B2_OFF + 0x000. Fast memory copy operation.
+
+Registers: - a0 : Destination pointer (dst).  - a1 : Source pointer (src).
+- a2 : Length in bytes (len).
+
+Constant: MEM_SET Offset: B2_OFF + 0x008. Fills memory with a specific
+byte value.
+
+Registers: - a0 : Destination pointer (dst).  - a1 : Value to set (val).
+- a2 : Length in bytes (len).
+
+Constant: MEM_COMPARE Offset: B2_OFF + 0x010. Compares two memory regions.
+
+Registers: - a0 : First memory pointer (ptr1). Returns the comparison result
+here.  - a1 : Second memory pointer (ptr2).  - a2 : Length in bytes (len).
+
+Constant: MEM_MOVE Offset: B2_OFF + 0x018. Overlap-safe memory copy.
+
+Registers: - a0 : Destination pointer (dst).  - a1 : Source pointer (src).
+- a2 : Length in bytes (len).
+
+Constant: STR_LEN Offset: B2_OFF + 0x020. Calculates string length.
+
+Registers: - a0 : String pointer (str_ptr). Returns the length here.
+
+Group: Block 2 - Memory & Data (Management & IPC)
+
+Constant: MEM_TOTAL Offset: B2_OFF + 0x200. Retrieves total system RAM. Returns
+in a0.
+
+Constant: MEM_FREE Offset: B2_OFF + 0x208. Retrieves currently free
+RAM. Returns in a0.
+
+Constant: MEM_PAGE_SIZE Offset: B2_OFF + 0x210. Retrieves CPU page size
+(usually 4KB). Returns in a0.
+
+Constant: MB_READ Offset: B2_OFF + 0x400. Reads from the Node.js Host Mailbox.
+
+Registers: - a0 : Read offset.
+
+Constant: MB_WRITE Offset: B2_OFF + 0x408. Writes to the Node.js Host Mailbox.
+
+Registers: - a0 : Write offset.  - a1 : Value to write.
+
+Constant: MB_FLUSH Offset: B2_OFF + 0x410. Triggers host-side processing
+for IPC.
+
+Constant: FS_SYNC Offset: B2_OFF + 0x600. Commits all writes to disk
+(OPFS/Geomancy hooks).
+
+Constant: FS_STAT Offset: B2_OFF + 0x608. Retrieves storage health and status.
+
+Group: Block 3 - Platform API
+
+Constant: PL_CH_MSG_GET Offset: B3_OFF + 0x000. Retrieves a platform channel
+message.
+
+Constant: PL_CH_MSG_SET Offset: B3_OFF + 0x008. Sets a platform channel
+message.
+
+Constant: PL_CH_MSG_NEW Offset: B3_OFF + 0x010. Instantiates a new platform
+channel message.
+
+Group: System Execution Macros
+
+Macro: KCALL Bypasses the 12-bit immediate limit of 'ld' by using 'li' and
+'add', allowing offsets larger than 2047 bytes.
+
+Parameters: offset - The predefined ABI offset constant (e.g., UART_PUTC).
+
+Registers: - s1 : Read-only. Must contain the ABI base pointer (0x80201000).  -
+t5 : Mutated. Used to load the 32-bit exact byte offset.  - t6 : Mutated. Used
+to calculate the target function pointer address.  - ra : Mutated. Overwritten
+by the jalr (jump and link) instruction.
+
+Macro: PLATFORM_WAIT Initiates a spin-loop, polling a memory address to
+synchronize with the host platform. Hints to QEMU to save host energy
+if paused.
+
+Registers: - t2 : Read-only. Expected to contain the pointer to the
+synchronization flag.  - t0 : Mutated. Used to load and evaluate the flag
+value from memory.
+
+Macro: EXIT Wrapper for the SYS_HALT system call. Halts the current
+context. Uses the KCALL register requirements.
+
+Group: Context Management Macros
+
+Macro: PUSH_FRAME Allocates stack space and saves the return address (64-bit).
+
+Parameters: space - The total byte size to allocate on the stack.
+
+Registers: - sp : Mutated. Stack pointer is decremented by the requested space.
+- ra : Read-only. Stored onto the newly allocated stack frame.
+
+Macro: POP_FRAME Restores the return address and deallocates stack space
+(64-bit).
+
+Parameters: space - The total byte size to deallocate from the stack.
+
+Registers: - sp : Mutated. Stack pointer is incremented by the requested space.
+- ra : Mutated. Restored from the stack frame.
+
+Macro: SAVE_ALL Saves all 32 general-purpose registers to the stack. Total
+size footprint is 256 bytes (32 registers * 8 bytes).
+
+Registers: - sp : Mutated. Used to store context. The original SP is saved
+to mscratch and eventually written to stack offset 8 (x2 slot).  - mscratch
+: Mutated. Temporarily holds the original SP during the save operation.  -
+x1, x3-x31 : Read-only. All general-purpose registers are pushed to the stack.
+
+Macro: RESTORE_ALL Restores all 32 general-purpose registers from the stack
+frame and cleans up the 256-byte allocation.
+
+Registers: - sp : Mutated. Incremented by 256 bytes after restoration.  -
+t0 : Mutated. Used to read the original SP from the stack and write it back
+to mscratch.  - mscratch : Mutated. Restored to hold the original SP.  -
+x1, x3-x31 : Mutated. Completely overwritten with values from the stack frame.

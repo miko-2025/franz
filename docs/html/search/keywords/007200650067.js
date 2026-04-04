@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("reg",["Macro"],[["registers",,[[,"RESTORE_ALL Restores all 32 general-purpose registers from the stack",,,0,"File:franz_abi_old.txt:RESTORE_ALL_Restores_all_32_general-purpose_registers_from_the_stack"]]]]);

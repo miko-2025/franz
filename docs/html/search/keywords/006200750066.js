@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("buf",["Constant"],[["buffer",,[["PX_SYNC Offset: B0_OFF + 0x218"," Synchronizes the pixel buffer with",,"synchronizes the pixel buffer with",0,"File:franz_abi_old.txt:PX_SYNC_Offset_B0_OFF+0x218.Synchronizes_the_pixel_buffer_with"]]]]);

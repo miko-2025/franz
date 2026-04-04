@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("uar",["Constant"],[["UART_GETC",,[[,,,,0,"File:franz_abi.txt:UART_GETC"]]],["UART_PUTC",,[[,,,,0,"File:franz_abi.txt:UART_PUTC"]]],["UART_PUTDEC",,[[,,,,0,"File:franz_abi.txt:UART_PUTDEC"]]],["UART_PUTHEX",,[[,,,,0,"File:franz_abi.txt:UART_PUTHEX"]]],["UART_PUTS",,[[,,,,0,"File:franz_abi.txt:UART_PUTS"]]]]);

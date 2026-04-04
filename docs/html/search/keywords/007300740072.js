@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("str",["Constant"],[["STR_LEN",,[[,,,,0,"File:franz_abi.txt:STR_LEN"]]]]);

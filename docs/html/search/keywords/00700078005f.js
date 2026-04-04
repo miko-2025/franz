@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("px_",["Constant"],[["PX_BUFFER",,[[,,,,0,"File:franz_abi.txt:PX_BUFFER"]]],["PX_GETH",,[[,,,,0,"File:franz_abi.txt:PX_GETH"]]],["PX_GETW",,[[,,,,0,"File:franz_abi.txt:PX_GETW"]]],["PX_SYNC",,[[,,,,0,"File:franz_abi.txt:PX_SYNC"]]]]);

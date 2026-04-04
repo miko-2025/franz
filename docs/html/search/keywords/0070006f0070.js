@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("pop",["Macro"],[["POP_FRAME",,[[,"POP_FRAME Restores the return address and deallocates stack space",,,0,"File:franz_abi_old.txt:POP_FRAME_Restores_the_return_address_and_deallocates_stack_space"]]]]);

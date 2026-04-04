@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("sin",["Constant"],[["single",,[["UART_GETC Offset: B0_OFF + 0x020"," Retrieves a single character",,"retrieves a single character",0,"File:franz_abi_old.txt:UART_GETC_Offset_B0_OFF+0x020.Retrieves_a_single_character"]]]]);
