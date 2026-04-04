@@ -1,0 +1,1 @@
+stty cols 40

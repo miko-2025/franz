@@ -1,0 +1,19 @@
+{
+	"name": "franz",
+	"version": "0.0.1",
+	"description": "Discord Bot for assembling and executing RISC-V cpu archotecture",
+	"license": "MIT",
+	"author": "miko2025",
+	"type": "commonjs",
+	"main": "index.js",
+	"scripts": {
+		"test": "node test.js",
+		"build": "cmake -S . -B build && cmake --build build",
+		"dev": "cpulimit -l 3 node bot/index.js"
+	},
+	"dependencies": {
+		"better-sqlite3": "^12.8.0",
+		"discord.js": "^14.25.1",
+		"franz": "file:."
+	}
+}
