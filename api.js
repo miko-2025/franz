@@ -36,6 +36,7 @@ api["api.1810"] = async function(context, read, write, push, clean){
 	const { interaction, bot } = context.user;
 	const { message } = interaction;
 	let content = await read(2048);
+	console.log(content);
 	if(content.endsWith("__json__")){
 		try {
 			content = JSON.parse(content.slice(0, -8));
@@ -50,9 +51,11 @@ api["api.1810"] = async function(context, read, write, push, clean){
 		;
 	}
 
-	const channel = await bot.channels.fetch(interaction.channelId);
 	let sent;
 	try {
+		const channel = await bot.channels.fetch(
+			interaction.channelId
+		);
 		sent = await channel.send(typeof content == "object"
 			? {
 				...content,

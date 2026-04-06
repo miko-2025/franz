@@ -16,6 +16,7 @@ class Franz extends Discord.Client {
 				GuildMemberManager: 0,
 				UserManager: 0,
 				GuildEmojiManager: 0,
+				VoiceStateManager: 0
 			}),
 			sweepers: {
 				...Options.DefaultSweeperSettings,

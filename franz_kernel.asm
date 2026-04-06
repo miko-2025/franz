@@ -3,9 +3,6 @@
 # =========================================================
 .section .text.header
 .global _start
-.section .text
-.global _start
-
 _start:
 	# Enable Machine Software Interrupts (bit 3)
 	li   t0, 0x8
@@ -162,7 +159,8 @@ run_user_code:
 
 	# 2. Set User Stack
 	#li	 sp, 0x9FFFFFFF		   # Move stack to top of RAM for user code
-	li  sp, 0x9FFFFFF0   # Ends in 0, perfectly 16-byte aligned
+	#li  sp, 0x9FFFFFF0   # Ends in 0, perfectly 16-byte aligned
+	li sp, 0x88000000
 
 	# 3. Synchronization
 	fence rw, rw
@@ -187,6 +185,7 @@ run_user_code:
 # POST-EXECUTION (Cleanup)
 # =========================================================
 	li	 s0, 0x82000000
+	li	 sp, 0x80400000
 
 	# Signal 'Done' to the Host
 	# We write the sequence ID we just finished to offset 1.

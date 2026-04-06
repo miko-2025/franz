@@ -209,7 +209,7 @@ void franz_riscv_run(
 			"-serial", "stdio",
 			"-kernel", "./franz_payload.bin",
 			"-accel", "tcg,thread=single,one-insn-per-tb=on",
-			"-icount", "shift=6,sleep=on"
+			"-icount", "shift=10,sleep=on",
 			"-bios", "none",
 
 			"-object", "memory-backend-file,id=mem1,size=128M,mem-path=/data/data/com.termux/files/home/franz_ivshmem,share=on,prealloc=on",

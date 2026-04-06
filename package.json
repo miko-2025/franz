@@ -9,7 +9,7 @@
 	"scripts": {
 		"test": "node test.js",
 		"build": "cmake -S . -B build && cmake --build build",
-		"dev": "cpulimit -l 3 node bot/index.js"
+		"dev": "cpulimit -l 3 node --max-old-space-size=256 bot/index.js"
 	},
 	"dependencies": {
 		"better-sqlite3": "^12.8.0",

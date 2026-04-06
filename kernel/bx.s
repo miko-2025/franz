@@ -59,7 +59,8 @@ kernel_api_b2:                    # This will be exactly kernel_api_table + 0x10
 .quad sys_mem_compare        # [514] a0=ptr1, a1=ptr2, a2=len -> a0=result
 .quad sys_mem_move           # [515] a0=dst, a1=src, a2=len (overlap safe)
 .quad sys_str_len            # [516] a0=str_ptr -> a0=len
-.fill 59, 8, 0               # 59 EMPTY SLOTS (Fast Ops)
+.quad sys_str_chr            # [517] a0=str_ptr a1=chr -> a2=chr_occur_ptr
+.fill 58, 8, 0               # 58 EMPTY SLOTS (Fast Ops)
 
 # -- Quadrant 2: Memory Info & Stats [576-639] (Offset 4608) --
 .quad sys_mem_total          # [576] Returns total system RAM -> a0

@@ -105,6 +105,63 @@ sys_str_len:
     sub  a0, t0, a0      # Result = Current address - Start address
     ret
 
+.global fast_strchr
+    .text
+    .align 2
+
+# -----------------------------------------------------------------------------
+# fast_strchr
+# Input:  a0 = string address
+#         a1 = separator character to find
+# Output: a2 = memory address of the occurrence (or 0 if not found)
+# Clobbers: t0, t1, a0 (mutates pointer as it scans)
+# -----------------------------------------------------------------------------
+sys_str_chr:
+	# Mask a1 to ensure we are only comparing the lowest 8 bits (1 byte)
+	andi    a1, a1, 0xFF
+
+.L_scan_loop:
+	# --- Unroll Block 1 ---
+	lbu     t0, 0(a0)           # Load byte at offset 0
+	beq     t0, a1, .L_match_0  # If byte == separator, jump to match
+	beqz    t0, .L_not_found    # If byte == 0 (null term), end of string
+
+	# --- Unroll Block 2 ---
+	lbu     t1, 1(a0)           # Load byte at offset 1
+	beq     t1, a1, .L_match_1
+	beqz    t1, .L_not_found
+
+	# --- Unroll Block 3 ---
+	lbu     t0, 2(a0)           # Load byte at offset 2
+	beq     t0, a1, .L_match_2
+	beqz    t0, .L_not_found
+
+	# --- Unroll Block 4 ---
+	lbu     t1, 3(a0)           # Load byte at offset 3
+	beq     t1, a1, .L_match_3
+	beqz    t1, .L_not_found
+
+	# Advance pointer by 4 and loop
+	addi    a0, a0, 4
+	j       .L_scan_loop
+
+# --- Match Handlers ---
+# Cascading additions to calculate the correct exact address into a2
+.L_match_3:
+	addi    a0, a0, 1
+.L_match_2:
+	addi    a0, a0, 1
+.L_match_1:
+	addi    a0, a0, 1
+.L_match_0:
+	mv      a2, a0              # Write final occurrence address to a2
+	ret                         # Return to caller
+
+# --- Fail Handler ---
+.L_not_found:
+	li      a2, 0               # Write NULL (0) to a2
+	ret                         # Return to caller
+
 # --- [576] sys_mem_total ---
 sys_mem_total:
     li   a0, 0x20000000      # Hardcoded 512 MB

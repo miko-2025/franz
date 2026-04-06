@@ -34,60 +34,69 @@ class FranzDB {
 	}
 
 	// .cut x y: Cut lines from x to y and move to clipboard
-	cut(uid, start, end) {
-		this.transaction(() => {
-			const count = end - start + 1;
-			// 1. Clear existing clipboard for this user
-			this.db.prepare(`DELETE FROM clipboard WHERE uid = ?`)
-				.run(uid);
+	cut(uid, start, end) { this.transaction(() => {
+		const count = end - start + 1;
+		// 1. Clear existing clipboard for this user
+		this.db.prepare(`DELETE FROM clipboard WHERE uid = ?`)
+			.run(uid);
 
-			this.db.prepare(`
-				INSERT INTO clipboard (uid, row, code)
-				SELECT uid, row - ? + 1, code FROM txt 
-				WHERE uid = ? AND row BETWEEN ? AND ?
-			`).run(start, uid, start, end);
+		// 2. Copy to clipboard
+		this.db.prepare(`
+			INSERT INTO clipboard (uid, row, code)
+			SELECT uid, row - ? + 1, code FROM txt
+			WHERE uid = ? AND row BETWEEN ? AND ?
+		`).run(start, uid, start, end);
 
-			// 3. Delete from main table
-			this.db.prepare(`DELETE FROM txt WHERE uid = ? `
-				+ `AND row BETWEEN ? AND ?`
-			)
-				.run(uid, start, end);
+		// 3. Delete from main table
+		this.db.prepare(`DELETE FROM txt WHERE uid = ? `
+			+ `AND row BETWEEN ? AND ?`
+		)
+		        .run(uid, start, end);
 
-			// 4. Shift remaining rows up
-			this.db.prepare(`
-				UPDATE txt SET row = row - ? 
-				WHERE uid = ? AND row > ?
-			`).run(count, uid, end);
-		});
-	}
+		// 4. Shift remaining rows up
+		this.db.prepare(`
+			UPDATE txt SET row = row - ?
+			WHERE uid = ? AND row > ?
+		`).run(count, uid, end);
+	}); }
 
-	// .paste x: Insert clipboard at line x, moving code down
-	paste(uid, x) {
-		this.transaction(() => {
-			const clipboardItems = this.db.prepare(
-				`SELECT COUNT(*) as count FROM  `
-				+ `clipboard WHERE uid = ?`)
-				.get(uid)
-			;
-			const count = clipboardItems.count;
-			if (count === 0)
-				return
-			;
+	// .paste x: Insert clipboard at line x, expanding multiple lines into distinct rows
+	paste(uid, x) { this.transaction(() => {
+		// Fetch the clipboard contents into JS memory first
+		const clipboardItems = this.db.prepare(
+			`SELECT code FROM clipboard WHERE uid = ? ORDER BY row ASC`
+		).all(uid);
 
-			// 1. Shift existing code down to make room
-			this.db.prepare(`
-				UPDATE txt SET row = row + ? 
-				WHERE uid = ? AND row >= ?
-			`).run(count, uid, x);
+		if (!clipboardItems || clipboardItems.length === 0) {
+			return;
+		}
 
-			// 2. Insert from clipboard
-			this.db.prepare(`
-				INSERT INTO txt (uid, row, code)
-				SELECT uid, row + ? - 1, code FROM 
-				clipboard WHERE uid = ?
-			`).run(x, uid);
-		});
-	}
+			// Process the clipboard items to split any multi-line strings
+		const linesToInsert = [];
+		for (const item of clipboardItems) {
+			// Split by newline (handles both \n and \r\n)
+			const splitLines = item.code.split(/\r?\n/);
+			linesToInsert.push(...splitLines);
+		}
+
+		const totalNewLines = linesToInsert.length;
+
+			// 1. Shift existing code down to make room for ALL new lines
+		this.db.prepare(`
+			UPDATE txt SET row = row + ?
+			WHERE uid = ? AND row >= ?
+		`).run(totalNewLines, uid, x);
+
+			// 2. Insert the split lines individually
+		const insertStmt = this.db.prepare(`
+			INSERT INTO txt (uid, row, code)
+			VALUES (?, ?, ?)
+		`);
+
+		for (let i = 0; i < totalNewLines; i++) {
+			insertStmt.run(uid, x + i, linesToInsert[i]);
+		}
+	}); }
 
 	// .insert x: Shift code below x down, insert code at x
 	insert(uid, x, code) {
@@ -147,7 +156,9 @@ class FranzDB {
 	// .compile: Gather every code from every user into a single string
 	compile(uid) {
 		const rows = this.db.prepare(`
-			SELECT code FROM txt WHERE uid = ? ORDER BY uid, row ASC
+			SELECT code FROM txt WHERE uid = ?
+			AND row > -1
+			ORDER BY uid, row ASC
 		`).all(uid);
 		return rows.map(r => r.code).join('\n');
 	}

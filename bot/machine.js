@@ -35,6 +35,5 @@ _start:
 	});
 });*/
 
-machine.kernel();
 machine.Program = FranzMono;
 module.exports = machine;

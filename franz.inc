@@ -57,6 +57,7 @@
 .equ MEM_COMPARE,     (B2_OFF + 0x010)
 .equ MEM_MOVE,        (B2_OFF + 0x018)
 .equ STR_LEN,         (B2_OFF + 0x020)
+.equ STR_CHR,         (B2_OFF + 0x028)
 
 # -- Quadrant 2: Memory Info & Stats [576-639] --
 .equ MEM_TOTAL,       (B2_OFF + 0x200)
