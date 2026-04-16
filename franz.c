@@ -212,7 +212,9 @@ void franz_riscv_run(
 			"-icount", "shift=10,sleep=on",
 			"-bios", "none",
 
-			"-object", "memory-backend-file,id=mem1,size=128M,mem-path=/data/data/com.termux/files/home/franz_ivshmem,share=on,prealloc=on",
+			"-object", "memory-backend-file,id=mem1,size=128M,mem-path="
+				SHM_PATH
+				",share=on,prealloc=on",
 			"-machine", "virt,memory-backend=mem1",
 
 			"-net", "none",
