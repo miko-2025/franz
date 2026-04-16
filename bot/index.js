@@ -85,6 +85,9 @@ const commands = [
 		[ 1, "topic", "topic to look for", 0 ],
 	] ],
 	[ "status", "check virtual machine status", [] ],
+	[ "dev", "Developer settings", [
+		[ 0, "arguments", "arguments to pass onto", 1 ]
+	] ],
 	[ "reset", "reset the virtual machine", [] ]
 ].map(function(command){
 	const [
